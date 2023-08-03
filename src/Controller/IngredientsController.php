@@ -11,6 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class IngredientsController extends AbstractController
 {
+    /**
+     *This controller display all ingredients
+     * @param IngredientRepository $ingredientRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    
     #[Route('/ingredients', name: 'app_ingredients', methods: ['GET'])]
     public function index(IngredientRepository $ingredientRepository, PaginatorInterface $paginator, Request $request): Response
     {
