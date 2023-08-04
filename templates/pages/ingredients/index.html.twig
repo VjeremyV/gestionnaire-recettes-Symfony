@@ -9,40 +9,43 @@
 	<div class="container mt-4">
 		<h1>Liste des ingredients disponibles</h1>
 
-{% if not ingredients.items is same as([]) %}
-    
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">Id</th>
-					<th scope="col">Nom</th>
-					<th scope="col">Prix</th>
-					<th scope="col">Date d'ajotu</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for ingredient in ingredients %}
-					<tr class="table-primary">
-						<td>{{ingredient.id}}</td>
-						<td>{{ingredient.name}}</td>
-						<td>{{ingredient.price}}€</td>
-						<td>{{ingredient.createdAt|date("d/m/Y")}}</td>
+		<a href="{{path('app_ingredients_new')}}" class="btn btn-primary m-4">Ajouter un ingrédient</a>
+		{% if not ingredients.items is same as([]) %}
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Date d'ajotu</th>
 					</tr>
+				</thead>
+				<tbody>
+					{% for ingredient in ingredients %}
+						<tr class="table-primary">
+							<td>{{ingredient.id}}</td>
+							<td>{{ingredient.name}}</td>
+							<td>{{ingredient.price}}€</td>
+							<td>{{ingredient.createdAt|date("d/m/Y")}}</td>
+						</tr>
 
-				{% endfor %}
+					{% endfor %}
 
-			</tbody>
-		</table>
-		<div class="navigation d-flex justify-content-center">
-			{{ knp_pagination_render(ingredients) }}
-		</div>
-		<div class="count">
-			il y a {{ ingredients.getTotalItemCount }} ingrédients au total.
-		</div>
-        {% else %}
-        <div>
-        Il n'y a pas d'ingrédients.
-        </div>
-{% endif %}
+				</tbody>
+			</table>
+			<div class="navigation d-flex justify-content-center">
+				{{ knp_pagination_render(ingredients) }}
+			</div>
+			<div class="count">
+				il y a
+				{{ ingredients.getTotalItemCount }}
+				ingrédients au total.
+			</div>
+		{% else %}
+			<div>
+				Il n'y a pas d'ingrédients.
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}
