@@ -35,6 +35,13 @@ class IngredientsController extends AbstractController
         ]);
     }
 
+    /**
+     * this controller adds news ingredients
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return response
+     */
     #[Route('/ingredients/new', name: 'app_ingredients_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): response
     {
@@ -56,6 +63,16 @@ class IngredientsController extends AbstractController
         ]);
     }
 
+
+   
+    /**
+     * This controller updates ingredients
+     *
+     * @param Ingredient $ingredient
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return response
+     */
     #[Route('ingredients/edit/{id}', name: 'app_ingredients_edit', methods: ['GET', 'POST'])]
     public function edit(Ingredient $ingredient, EntityManagerInterface $manager, Request $request): response
     {
@@ -75,6 +92,13 @@ class IngredientsController extends AbstractController
         ]);
     }
 
+    /**
+     * this controller deletes ingredients
+     *
+     * @param Ingredient $ingredient
+     * @param EntityManagerInterface $manager
+     * @return response
+     */
     #[Route('ingredients/supp/{id}', name: 'app_ingredients_delete', methods: ['GET'])]
     public function delete(Ingredient $ingredient, EntityManagerInterface $manager): response
     {
