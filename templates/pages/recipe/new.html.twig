@@ -60,7 +60,17 @@
 		</div>
 
 
-		{{ form_row(form.ingredients) }}
+		<div class="form-group">
+			{{ form_label(form.ingredients) }}
+			<div class="d-flex justify-content-start flex-wrap">
+				{% for ingredient in form.ingredients %}
+					<div class='my-2 mx-3'>
+						{{ form_widget(ingredient) }}
+						{{ form_label(ingredient) }}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 		{{ form_end(form) }}
 
 	</div>
