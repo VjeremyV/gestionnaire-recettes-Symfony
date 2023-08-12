@@ -69,4 +69,51 @@ class RecipeController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+     /**
+     * This controller updates recipes
+     *
+     * @param Recipe $recipe
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return response
+     */
+    #[Route('recette/edit/{id}', name: 'app_recipe_edit', methods: ['GET', 'POST'])]
+    public function edit(Recipe $recipe, EntityManagerInterface $manager, Request $request): response
+    {
+        $form = $this->createForm(RecipeType::class, $recipe);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recipe = $form->getData();
+            $manager->persist($recipe);
+            $manager->flush();
+
+            $this->addFlash('success', 'La recette a bien été modifiée');
+            return $this->redirectToRoute('app_recipe');
+        }
+        return $this->render('pages/recipe/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+      /**
+     * this controller deletes recipes
+     *
+     * @param Recipe $ingredient
+     * @param EntityManagerInterface $manager
+     * @return response
+     */
+    #[Route('recette/supp/{id}', name: 'app_recipe_delete', methods: ['GET'])]
+    public function delete(Recipe $recipe, EntityManagerInterface $manager): response
+    {
+        if (!$recipe) {
+            $this->addFlash('warning', 'L\'ingredient n\'existe pas');
+        } else {
+            $manager->remove($recipe);
+            $manager->flush();
+            $this->addFlash('success', 'La recette a bien été supprimée');
+        }
+        return $this->redirectToRoute('app_recipe');
+    }
 }

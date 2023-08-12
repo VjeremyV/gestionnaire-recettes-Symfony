@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	Ajouter une nouvelle recette
-{% endblock %}
 {% block body %}
-	<div class="container">
+	<div class="container my-4">
 		<h1 class="mt-4">
 			Ajouter une recette</h1>
 		{{ form_start(form) }}
@@ -59,8 +56,9 @@
 			</div>
 		</div>
 
-
 		{{ form_row(form.ingredients) }}
+
+		{{ form_widget(form.submit, {'label' : 'modifier'}) }}
 		{{ form_end(form) }}
 
 	</div>

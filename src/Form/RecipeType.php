@@ -86,12 +86,12 @@ class RecipeType extends AbstractType
             ])
             ->add('isFavorite', CheckboxType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => '',
                 ],
                 'required' => false,
                 'label' => 'Mettre en favoris ?',
                 'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'class' => 'form-check-label'
                 ],
             ])
             ->add('ingredients', EntityType::class, [
