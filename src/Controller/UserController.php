@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,9 +58,9 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if($hasher->isPasswordValid($user, $form->getData()['plainPassword'])){
-
-                // $user->setPlainPassword($form->getData()['newPassword']);
-                $user->setPassword($hasher->hashPassword($user, $form->getData()['newPassword']));
+                $user->setUpdatedAt(new DateTimeImmutable());
+                $user->setPlainPassword($form->getData()['newPassword']);
+                
                 $manager->persist($user);
                 $manager->flush();
     
