@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,16 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
 
 class RecipeController extends AbstractController
 {
-    /**
-     *This controller display all recipes
-     * @param IngredientRepository $ingredientRepository
-     * @param PaginatorInterface $paginator
-     * @param Request $request
-     * @return Response
-     */
+  
     /**
      * this controller display all recipes
      *
@@ -29,6 +27,7 @@ class RecipeController extends AbstractController
      * @param Request $request
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette', name: 'app_recipe', methods: ['GET'])]
     public function index(RecipeRepository $recipeRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -49,6 +48,7 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/creation', name: 'app_recipe_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -79,9 +79,14 @@ class RecipeController extends AbstractController
      * @param Request $request
      * @return response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('recette/edit/{id}', name: 'app_recipe_edit', methods: ['GET', 'POST'])]
-    public function edit(Recipe $recipe, EntityManagerInterface $manager, Request $request): response
+    public function edit(#[CurrentUser] ?User $user, Recipe $recipe, EntityManagerInterface $manager, Request $request): response
     {
+        if ($recipe->getUser() != $user) {
+            $this->addFlash('warning', 'La recette que vous essayez de modifier ne vous appartient pas');
+            return $this->redirectToRoute('app_recipe');
+                   }
         $form = $this->createForm(RecipeType::class, $recipe);
 
         $form->handleRequest($request);
@@ -105,9 +110,14 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('recette/supp/{id}', name: 'app_recipe_delete', methods: ['GET'])]
-    public function delete(Recipe $recipe, EntityManagerInterface $manager): response
+    public function delete(#[CurrentUser] ?User $user, Recipe $recipe, EntityManagerInterface $manager): response
     {
+        if ($recipe->getUser() != $user) {
+            $this->addFlash('warning', 'La recette que vous essayez de supprimer ne vous appartient pas');
+            return $this->redirectToRoute('app_recipe');
+                   }
         if (!$recipe) {
             $this->addFlash('warning', 'L\'ingredient n\'existe pas');
         } else {

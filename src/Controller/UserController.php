@@ -12,18 +12,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
+    #[IsGranted('ROLE_USER')]
     #[Route('/utilisateur/modifier/{id}', name: 'app_user_edit', methods:['GET', 'POST'])]
-    public function index(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    public function index(#[CurrentUser] ?User $user, User $chosenUser, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
-        if(!$this->getUser()){
-            return $this->redirectToRoute('app_security');
-        }
-        if($this->getUser() != $user){
-            return $this->redirectToRoute('app_recipe');
-        }
+
+        if ($chosenUser != $user) {
+            $this->addFlash('warning', 'Vous ne pouvez pas modifier les informations d\'un autre utilisateur');
+            return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
+                   }
 
         $form= $this->createForm(UserType::class, $user);
 
@@ -50,8 +52,12 @@ class UserController extends AbstractController
 
 
     #[Route('/utilisateur/modifier/mot-de-passe/{id}', name: 'app_user_edit_pwd', methods:['GET', 'POST'])]
-    public function editPwd(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher) : response {
+    public function editPwd(#[CurrentUser] ?User $user, User $chosenUser, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher) : response {
 
+        if ($chosenUser != $user) {
+            $this->addFlash('warning', 'Vous ne pouvez pas modifier les informations d\'un autre utilisateur');
+            return $this->redirectToRoute('app_user_edit', ['id'=>$user->getId()]);
+                   }
         $form= $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);

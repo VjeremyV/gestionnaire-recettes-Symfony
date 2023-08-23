@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\User;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class IngredientsController extends AbstractController
 {
@@ -23,6 +26,7 @@ class IngredientsController extends AbstractController
      */
 
     #[Route('/ingredients', name: 'app_ingredients', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(IngredientRepository $ingredientRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $ingredients = $paginator->paginate(
@@ -43,6 +47,7 @@ class IngredientsController extends AbstractController
      * @return response
      */
     #[Route('/ingredients/new', name: 'app_ingredients_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $manager): response
     {
 
@@ -65,7 +70,7 @@ class IngredientsController extends AbstractController
     }
 
 
-   
+
     /**
      * This controller updates ingredients
      *
@@ -74,9 +79,14 @@ class IngredientsController extends AbstractController
      * @param Request $request
      * @return response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('ingredients/edit/{id}', name: 'app_ingredients_edit', methods: ['GET', 'POST'])]
-    public function edit(Ingredient $ingredient, EntityManagerInterface $manager, Request $request): response
+    public function edit(#[CurrentUser] ?User $user, Ingredient $ingredient, EntityManagerInterface $manager, Request $request): response
     {
+        if ($ingredient->getUser() != $user) {
+            $this->addFlash('warning', 'L\'ingredient que vous essayez de modifier ne vous appartient pas');
+            return $this->redirectToRoute('app_ingredients');
+                   }
         $form = $this->createForm(IngredientType::class, $ingredient);
 
         $form->handleRequest($request);
@@ -89,7 +99,8 @@ class IngredientsController extends AbstractController
             return $this->redirectToRoute('app_ingredients');
         }
         return $this->render('pages/ingredients/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 
@@ -100,9 +111,14 @@ class IngredientsController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('ingredients/supp/{id}', name: 'app_ingredients_delete', methods: ['GET'])]
-    public function delete(Ingredient $ingredient, EntityManagerInterface $manager): response
+    public function delete(#[CurrentUser] ?User $user,Ingredient $ingredient, EntityManagerInterface $manager): response
     {
+        if ($ingredient->getUser() != $user) {
+            $this->addFlash('warning', 'L\'ingredient que vous essayez de supprimer ne vous appartient pas');
+            return $this->redirectToRoute('app_ingredients');
+                   }
         if (!$ingredient) {
             $this->addFlash('warning', 'L\'ingredient n\'existe pas');
         } else {
