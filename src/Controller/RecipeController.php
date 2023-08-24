@@ -59,7 +59,6 @@ class RecipeController extends AbstractController
     }
 
     #[Route('/recette/{id}', name: 'app_recipe_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
     public function show( Recipe $recipe):Response{
         if (!$recipe->isIsPublic()) {
             $this->addFlash('warning', 'La recette que vous essayez de consulter n\'est pas publique');
