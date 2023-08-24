@@ -34,13 +34,41 @@ class RecipeController extends AbstractController
         $recipes = $paginator->paginate(
             $recipeRepository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
-            10
+            12
         );
         return $this->render('pages/recipe/index.html.twig', [
             'recipes' => $recipes
         ]);
     }
 
+    /**
+     * this controller allow us to see a recipe wich is public
+     *
+     * @return Response
+     */
+    #[Route('/recette/publique', name: 'app_recipe_public', methods: ['GET'])]
+    public function indexPublic(PaginatorInterface $paginator, RecipeRepository $recipeRepository, Request $request): Response{
+        $recipes = $paginator->paginate(
+            $recipeRepository->findPublicRecipes(),
+            $request->query->getInt('page', 1),
+            12
+        );
+        return $this->render('pages/recipe/indexPublic.html.twig', [
+            'recipes' => $recipes
+        ]);
+    }
+
+    #[Route('/recette/{id}', name: 'app_recipe_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function show( Recipe $recipe):Response{
+        if (!$recipe->isIsPublic()) {
+            $this->addFlash('warning', 'La recette que vous essayez de consulter n\'est pas publique');
+            return $this->redirectToRoute('app_recipe');
+                   }
+        return $this->render('pages/recipe/show.html.twig', [
+            'recipe' =>$recipe
+        ]);
+    }
     /**
      * this controller adds news recipes
      *

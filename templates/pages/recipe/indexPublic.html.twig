@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des recettes publiques
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="container mt-4">
+		<h1>Liste des recettes publiques</h1>
+
+		{# <a href="{{path('app_recipes_new')}}" class="btn btn-primary m-4">Ajouter une recette</a> #}
+		{% if not recipes.items is same as([]) %}
+			<div class="d-flex justify-content-center flex-wrap">
+				{% for recipe in recipes %}
+					<div class="card text-white bg-primary m-3" style="max-width: 20rem;">
+						<div class="card-header">Recette n°{{recipe.id}}</div>
+						<div class="card-body">
+							<h4 class="card-title">{{recipe.name}}</h4>
+							<p class="card-text">{{recipe.description|slice(0, 100) ~ '...'}}</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+
+			<div class="navigation d-flex justify-content-center">
+				{{ knp_pagination_render(recipes) }}
+			</div>
+			<div class="count">
+				il y a
+				{{ recipes.getTotalItemCount }}
+				recettes au total.
+			</div>
+		{% else %}
+			<div>
+				Il n'y a pas de recettes.
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
