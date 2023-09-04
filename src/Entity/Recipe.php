@@ -82,11 +82,17 @@ class Recipe
     #[ORM\Column]
     private ?bool $isPublic = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Mark::class, orphanRemoval: true)]
+    private Collection $marks;
+
+    private ?float $average = null;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->marks = new ArrayCollection();
     }
 
     #[ORM\PrePersist()]
@@ -254,5 +260,50 @@ class Recipe
         $this->isPublic = $isPublic;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Mark>
+     */
+    public function getMarks(): Collection
+    {
+        return $this->marks;
+    }
+
+    public function addMark(Mark $mark): static
+    {
+        if (!$this->marks->contains($mark)) {
+            $this->marks->add($mark);
+            $mark->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMark(Mark $mark): static
+    {
+        if ($this->marks->removeElement($mark)) {
+            // set the owning side to null (unless already changed)
+            if ($mark->getRecipe() === $this) {
+                $mark->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function getAverage()
+    {
+        $marks = $this->marks;
+        if($marks->toArray() === []){
+            $this->average = null;
+        } else {  
+            $total = 0;
+            foreach($marks as $mark){
+                $total += $mark->getMark();
+            }
+            $this->average = $total / count($marks);
+        }
+        return $this->average;
     }
 }

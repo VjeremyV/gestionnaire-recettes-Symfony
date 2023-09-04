@@ -7,6 +7,11 @@
 {% block body %}
 	<div class="container">
 		<h1 class="mt-4">{{recipe.name}}</h1>
+		<p>
+			la moyenne de cette recette est de
+			{{recipe.average|number_format(2) }}
+			/ 5
+		</p>
 		<span class="badge bg-primary text-white">Créée le
 			{{recipe.createdAt|date('d/m/Y')}}</span>
 
@@ -57,5 +62,17 @@
 				{% endfor %}
 			</div>
 		</div>
-	</div>
-{% endblock %}
+
+
+		{% if app.user  and app.user != recipe.user %}
+
+			{% if existing_mark is null %}
+				<h2 class="mt-4">Notez la recette</h2>
+			{% else %}
+				<h2 class="mt-4">Modifier votre note</h2>
+				<p>vous avez noter la recette {{existing_mark.mark}} / 5</p>
+			{% endif %}
+			{{ form(form) }}{% endif %}
+		</div>
+
+	{% endblock %}
