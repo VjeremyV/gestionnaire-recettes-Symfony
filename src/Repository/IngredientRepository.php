@@ -20,7 +20,14 @@ class IngredientRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Ingredient::class);
     }
+    public function save(Ingredient $Ingredient, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($Ingredient);
 
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 //    /**
 //     * @return Ingredient[] Returns an array of Ingredient objects
 //     */

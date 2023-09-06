@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RecipeType extends AbstractType
 {
@@ -59,7 +60,8 @@ class RecipeType extends AbstractType
                 'label' => 'Nombre de personnes',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
-                ]
+                ],
+                'required' => false,
             ])
             ->add('difficulty', RangeType::class, [
                 'attr' => [
@@ -89,6 +91,7 @@ class RecipeType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
+                'required' => false,
             ])
             ->add('isFavorite', CheckboxType::class, [
                 'attr' => [
@@ -109,6 +112,12 @@ class RecipeType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-check-label'
                 ],
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'image de la recette',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'],
+                    'required' => false,
             ])
             ->add('ingredients', EntityType::class, [
                 'label' => 'Les ingrédients',

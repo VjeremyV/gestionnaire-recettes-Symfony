@@ -81,19 +81,18 @@ class IngredientsController extends AbstractController
      */
     #[IsGranted('ROLE_USER')]
     #[Route('ingredients/edit/{id}', name: 'app_ingredients_edit', methods: ['GET', 'POST'])]
-    public function edit(#[CurrentUser] ?User $user, Ingredient $ingredient, EntityManagerInterface $manager, Request $request): response
+    public function edit(#[CurrentUser] ?User $user, Ingredient $ingredient, Request $request, IngredientRepository $ingredientRepository): response
     {
         if ($ingredient->getUser() != $user) {
             $this->addFlash('warning', 'L\'ingredient que vous essayez de modifier ne vous appartient pas');
             return $this->redirectToRoute('app_ingredients');
                    }
         $form = $this->createForm(IngredientType::class, $ingredient);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
-            $manager->persist($ingredient);
-            $manager->flush();
+            $ingredientRepository->save($ingredient, true);
+   
 
             $this->addFlash('success', 'L\'ingredient a bien été modifié');
             return $this->redirectToRoute('app_ingredients');
