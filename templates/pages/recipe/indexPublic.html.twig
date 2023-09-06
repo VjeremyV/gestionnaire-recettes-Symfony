@@ -14,7 +14,7 @@
 			<div class="d-flex justify-content-center flex-wrap">
 				{% for recipe in recipes %}
 					<a href="{{path('app_recipe_show', {id: recipe.id})}}">
-						<div class="card text-white bg-primary m-3" style="max-width: 20rem;">
+						<div class="card text-white bg-primary m-3" style="width: 20rem;height : 200px">
 							<div class="card-header">Recette n°{{recipe.id}}</div>
 							<div class="card-body">
 								<h4 class="card-title">{{recipe.name}}</h4>

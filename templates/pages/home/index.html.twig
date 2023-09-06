@@ -6,7 +6,7 @@
 {% block body %}
 	<div class="container mt-4">
 		<div class="jumbotron">
-			<h1 class="display-4">Titre h1</h1>
+			<h1 class="display-4">Bienvenue sur Recettes pour tous</h1>
 			<p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis porro fuga consectetur illum excepturi adipisci repellendus animi atque, quae, exercitationem nobis veniam illo quos molestias cumque non delectus nostrum sed!</p>
 			<p>Pour commencer rendez-vous sur la page d'inscription</p>
 			{% if not app.user %}
@@ -18,10 +18,10 @@
 
 		<div class="recipes mt-4">
 			<h2>Dernières recettes ajoutées</h2>
-			<div class="d-flex justify-content-center flex-wrap">
+			<div class="d-flex justify-content-between flex-wrap p-3">
 				{% for recipe in recipes %}
 					<a href="{{path('app_recipe_show', {id: recipe.id})}}">
-						<div class="card text-white bg-primary m-3" style="max-width: 20rem;">
+						<div class="card text-white bg-primary " style="width: 20rem;height : 200px">
 							<div class="card-header">Recette n°{{recipe.id}}</div>
 							<div class="card-body">
 								<h4 class="card-title">{{recipe.name}}</h4>
@@ -31,6 +31,11 @@
 					</a>
 				{% endfor %}
 			</div>
+
+			<div class="mt-4 text-right p-3">
+				<a class="btn btn-primary btn-lg" href="{{path('app_recipe_public')}}" role="button">Voir toutes les recettes</a>
+			</div>
 		</div>
+
 	</div>
 {% endblock %}
