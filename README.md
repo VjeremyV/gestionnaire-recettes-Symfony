@@ -1,19 +1,19 @@
 Gestionnaire de recettes
 
-L'application doit permettre à un utilisateur de créer un compte afin de pouvoir partager ses recettes.
-L'utilisateur pourra créer des entitées ingredients qu'il pourra ensuite choisir pour créer ses entitées recettes.
-Les recettes pourront être rendues publiques ou gardées en privé. On pourra ajouté une image illustrant la recette.
-Les utilisateurs pourront noter sur 5 les recettes publiques des autres utilisateurs.
+- L'application doit permettre à un utilisateur de créer un compte afin de pouvoir partager ses recettes.
+- L'utilisateur pourra créer des entitées ingredients qu'il pourra ensuite choisir pour créer ses entitées recettes.
+- Les recettes pourront être rendues publiques ou gardées en privé. On pourra ajouté une image illustrant la recette.
+- Les utilisateurs pourront noter sur 5 les recettes publiques des autres utilisateurs.
 
-Les visiteurs ne pourront que consulter les recettes rendues publiques.
+- Les visiteurs ne pourront que consulter les recettes rendues publiques.
 
-Les visiteurs et utilisateurs pourront remplir un formulaire de contact pour joindre l'administrateur du site.
-Le formulaire de contact devra envoyer un mail à l'administrateur du site. (création d'un service dédié)
-Le formulaire de contact sera protéger par recaptchaV3.
+- Les visiteurs et utilisateurs pourront remplir un formulaire de contact pour joindre l'administrateur du site.
+- Le formulaire de contact devra envoyer un mail à l'administrateur du site. (création d'un service dédié)
+- Le formulaire de contact sera protéger par recaptchaV3.
 
 -----------------------------------------------------------------------------------
 
-Fixtures : mises en place avec les librairies et bundle : Doctrine-fixtures-bundle et fakerPhp
-Recaptchav3 : avec le bundle karser-recaptcha3-bundle
-Envoi de mails : avecc vich/uploader-bundle
+- Fixtures : mises en place avec les librairies et bundle : Doctrine-fixtures-bundle et fakerPhp
+- Recaptchav3 : avec le bundle karser-recaptcha3-bundle
+- Envoi de mails : avecc vich/uploader-bundle
 
