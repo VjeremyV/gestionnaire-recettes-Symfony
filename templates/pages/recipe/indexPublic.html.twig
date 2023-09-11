@@ -14,9 +14,12 @@
 			<div class="d-flex justify-content-center flex-wrap">
 				{% for recipe in recipes %}
 					<a href="{{path('app_recipe_show', {id: recipe.id})}}">
-						<div class="card text-white bg-primary m-3" style="width: 20rem;height : 200px">
+						<div class="card text-white bg-primary m-3" style="width: 20rem;min-height : 250px">
 							<div class="card-header">Recette n°{{recipe.id}}</div>
 							<div class="card-body">
+							{% if recipe.imageName is not null %}
+								<img class="featured-img" src="{{ asset('images/recette/' ~  recipe.imageName) }}" >
+							{% endif %}
 								<h4 class="card-title">{{recipe.name}}</h4>
 								<p class="card-text">{{recipe.description|slice(0, 100) ~ '...'}}</p>
 							</div>

@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class RecipeType extends AbstractType
 {
@@ -74,7 +75,10 @@ class RecipeType extends AbstractType
                     'class' => 'form-label mt-4'
                 ]
             ])
-            ->add('description', TextareaType::class,  [
+            ->add('description', CKEditorType::class,  [
+                'config' => [
+                    'language' => 'fr'
+                ],
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -83,6 +87,7 @@ class RecipeType extends AbstractType
                     'class' => 'form-label mt-4'
                 ]
             ])
+            
             ->add('price', MoneyType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -114,10 +119,15 @@ class RecipeType extends AbstractType
                 ],
             ])
             ->add('imageFile', VichImageType::class, [
+                'attr' => [
+                    'class' => '',
+                ],
                 'label' => 'image de la recette',
                 'label_attr' => [
                     'class' => 'form-label mt-4'],
                     'required' => false,
+                    'allow_delete' => false,
+                    'download_uri' => false,
             ])
             ->add('ingredients', EntityType::class, [
                 'label' => 'Les ingrédients',

@@ -1,4 +1,4 @@
-Gestionnaire de recettes
+Gestionnaire de recettes (Application réalisée en Symfony 6.3.3)
 
 - L'application doit permettre à un utilisateur de créer un compte afin de pouvoir partager ses recettes.
 - L'utilisateur pourra créer des entitées ingredients qu'il pourra ensuite choisir pour créer ses entitées recettes.
@@ -11,9 +11,11 @@ Gestionnaire de recettes
 - Le formulaire de contact devra envoyer un mail à l'administrateur du site. (création d'un service dédié)
 - Le formulaire de contact sera protéger par recaptchaV3.
 
+- L'administration permettra d'accéder au CRUD des utilisateurs et des messages de contacts
 -----------------------------------------------------------------------------------
 
 - Fixtures : mises en place avec les librairies et bundle : Doctrine-fixtures-bundle et fakerPhp
 - Recaptchav3 : avec le bundle karser-recaptcha3-bundle
 - Envoi de mails : avecc vich/uploader-bundle
-
+- administration avec EasyAdmin 4
+- wysiwyg : avec ckeditor-bundle

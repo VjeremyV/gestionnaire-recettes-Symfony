@@ -1,0 +1,23 @@
+.vich-image {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.vich-image a {
+  margin-bottom: 15px;
+}
+
+.vich-image a img, .featured-img-single {
+  border-radius: 5px;
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.featured-img{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
