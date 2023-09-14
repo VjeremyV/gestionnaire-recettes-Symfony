@@ -25,8 +25,8 @@ class Recipe
 
     #[ORM\Column(length: 50)]
     #[Assert\Length(min: 2, max: 50, minMessage: 'Le nom doit contenir au moins 2 caractères', maxMessage: 'Le nom doit contenir maximum 50 caractères')]
+    #[Assert\NotBlank]
     private ?string $name = null;
-
 
 
     #[Vich\UploadableField(mapping: 'recipe_images', fileNameProperty: 'imageName')]
