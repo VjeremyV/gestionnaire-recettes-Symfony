@@ -12,6 +12,8 @@ Gestionnaire de recettes (Application réalisée en Symfony 6.3.3)
 - Le formulaire de contact sera protéger par recaptchaV3.
 
 - L'administration permettra d'accéder au CRUD des utilisateurs et des messages de contacts
+
+- Pour ajouter des comptes administrateurs, on créera une commande symfony personnalisée
 -----------------------------------------------------------------------------------
 
 - Fixtures : mises en place avec les librairies et bundle : Doctrine-fixtures-bundle et fakerPhp
@@ -19,3 +21,4 @@ Gestionnaire de recettes (Application réalisée en Symfony 6.3.3)
 - Envoi de mails : avecc vich/uploader-bundle
 - administration avec EasyAdmin 4
 - wysiwyg : avec ckeditor-bundle
+- tests unitaires : en phpUnit
