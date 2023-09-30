@@ -7,10 +7,11 @@
 {% block body %}
 	<div class="container">
 		<h1 class="mt-4">{{recipe.name}}</h1>
-
-		<div class="recipe_image">
-		<img class="featured-img-single" src="{{ vich_uploader_asset(recipe, 'imageFile') }}" alt="" srcset="">
-		</div>
+		{% if recipe.imageFile is not null %}
+			<div class="recipe_image">
+				<img class="featured-img-single" src="{{ vich_uploader_asset(recipe, 'imageFile') }}" alt="" srcset="">
+			</div>
+		{% endif %}
 		<p>
 			la moyenne de cette recette est de
 			{{recipe.average|number_format(2) }}
@@ -22,7 +23,7 @@
 		<div>
 			{% if recipe.time %}
 				<p>Temps (minutes) :
-					{{recipe.time}}</p>
+					{{recipe.time|min_to_hour}}</p>
 			{% else %}
 				<p>temps non renseigné</p>
 			{% endif %}
@@ -74,7 +75,9 @@
 				<h2 class="mt-4">Notez la recette</h2>
 			{% else %}
 				<h2 class="mt-4">Modifier votre note</h2>
-				<p>vous avez noter la recette {{existing_mark.mark}} / 5</p>
+				<p>vous avez noter la recette
+					{{existing_mark.mark}}
+					/ 5</p>
 			{% endif %}
 			{{ form(form) }}{% endif %}
 		</div>
